@@ -1,4 +1,4 @@
-drop table IF EXISTS Hören;
+drop table IF EXISTS Hoeren;
 drop table IF EXISTS studenten;
 drop table IF EXISTS Hochschulen;
 drop table IF EXISTS Vorlesungen;
@@ -21,11 +21,11 @@ Semester integer,
 HS integer not null,
 FOREIGN KEY (HS) REFERENCES Hochschulen(HSNr));
 
-create table Hören
+create table Hoeren
 (MatNr integer,
 VorlNr integer,
-foreign key Hören_Studenten_FK (MatNr) references Studenten (MatNr),
-foreign key Hören_Vorlesungen_FK (VorlNr) references Vorlesungen (VorlNr),
+foreign key Hoeren_Studenten_FK (MatNr) references Studenten (MatNr),
+foreign key Hoeren_Vorlesungen_FK (VorlNr) references Vorlesungen (VorlNr),
 primary key (MatNr, VorlNr)
 );
 
@@ -59,7 +59,7 @@ values (3,'Meier', 4, 22);
 insert into Studenten (MatNr, Name, Semester, HS)
 values (4,'Meier', 4, 33);
 
-insert into Hören (MatNr, VorlNr) values (4, 123);
+insert into Hoeren (MatNr, VorlNr) values (4, 123);
 
 select * from studenten;
 select * from Hochschulen;
