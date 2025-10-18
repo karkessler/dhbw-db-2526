@@ -9,217 +9,217 @@
 -------------------------------------------------
 
 -- -----------------------------------------------
-create table Student 
-(MatNr integer not null,
-Name varchar(50) not null,
-Semester integer);
+CREATE TABLE Student 
+(MatNr INTEGER NOT NULL,
+Name VARCHAR(50) NOT NULL,
+Semester INTEGER);
 -- ------------------------
-insert into Student (MatNr, Name, Semester)
-values (1,'Paul', 1);
-insert into Student (MatNr, Name, Semester)
-values (2,'Schmitt ', 8);
-insert into Student (MatNr, Name, Semester)
-values (3,'Meier', 4);
+INSERT INTO Student (MatNr, Name, Semester)
+VALUES (1,'Paul', 1);
+INSERT INTO Student (MatNr, Name, Semester)
+VALUES (2,'Schmitt ', 8);
+INSERT INTO Student (MatNr, Name, Semester)
+VALUES (3,'Meier', 4);
 -- ------------------------
-insert into Student (MatNr, Name, Semester)
-values (3,'Meier', 4); -- Problem: Redundanzen möglich
+INSERT INTO Student (MatNr, Name, Semester)
+VALUES (3,'Meier', 4); -- Problem: Redundanzen möglich
 --------------------------
-alter table Student add constraint Id_Student primary key (MatNr);
+ALTER TABLE Student ADD CONSTRAINT Id_Student PRIMARY KEY (MatNr);
 --------------------------
-delete from Student where Name = 'Meier' -- Problem: wie kann ich Student Meier löschen?
+DELETE FROM Student WHERE Name = 'Meier' -- Problem: wie kann ich Student Meier löschen?
 -- ALTER TABLE Student ADD ID INT AUTO_INCREMENT PRIMARY KEY;
 -- DELETE FROM Student WHERE ID = 5;
 -- oder: DELETE FROM Student WHERE Name = 'Meier' LIMIT 1;
 -- ------------------------
-drop table Student;
+DROP TABLE Student;
 -- ------------------------
-create table Student 
-(MatNr integer primary key, 
-Name varchar(50) not null,
-Semester integer);
+CREATE TABLE Student 
+(MatNr INTEGER PRIMARY KEY, 
+Name VARCHAR(50) NOT NULL,
+Semester INTEGER);
 -- ------------------------
-create table Hochschule 
-(HSNr integer primary key,
-Bezeichnung varchar(50) not null,
-Ort varchar(50),
-PLZ integer unique); -- darf in der Tabelle nur 1x vorhanden sein
+CREATE TABLE Hochschule 
+(HSNr INTEGER PRIMARY KEY,
+Bezeichnung VARCHAR(50) NOT NULL,
+Ort VARCHAR(50),
+PLZ INTEGER UNIQUE); -- darf in der Tabelle nur 1x vorhanden sein
 -- ------------------------
-insert into Hochschule (HSNr, Bezeichnung, Ort, PLZ)
-values (11,'DHBW Stuttgart', 'Stuttgart', 70245);
-insert into Hochschule (HSNr, Bezeichnung, Ort, PLZ)
-values (22,'DHBW Heilbronn', 'Heilbronn', 76584);
-insert into Hochschule (HSNr, Bezeichnung, Ort, PLZ)
-values (33,'TU Darmstadt', 'Darmstadt', 60125);
-insert into Hochschule (HSNr, Bezeichnung, Ort, PLZ)
-values (44,'Hochschule Bayern', 'München', 87312);
-insert into Hochschule (HSNr, Bezeichnung, Ort, PLZ)
-values (55,'Hochschule Franken', 'Nürnberg', 90285);
-insert into Hochschule (HSNr, Bezeichnung, Ort, PLZ)
-values (66,'Hochschule Hessen', 'Frankfurt', 60123);
+INSERT INTO Hochschule (HSNr, Bezeichnung, Ort, PLZ)
+VALUES (11,'DHBW Stuttgart', 'Stuttgart', 70245);
+INSERT INTO Hochschule (HSNr, Bezeichnung, Ort, PLZ)
+VALUES (22,'DHBW Heilbronn', 'Heilbronn', 76584);
+INSERT INTO Hochschule (HSNr, Bezeichnung, Ort, PLZ)
+VALUES (33,'TU Darmstadt', 'Darmstadt', 60125);
+INSERT INTO Hochschule (HSNr, Bezeichnung, Ort, PLZ)
+VALUES (44,'Hochschule Bayern', 'München', 87312);
+INSERT INTO Hochschule (HSNr, Bezeichnung, Ort, PLZ)
+VALUES (55,'Hochschule Franken', 'Nürnberg', 90285);
+INSERT INTO Hochschule (HSNr, Bezeichnung, Ort, PLZ)
+VALUES (66,'Hochschule Hessen', 'Frankfurt', 60123);
 -- ------------------------
-insert into Hochschule (HSNr, Bezeichnung, Ort, PLZ)
-values (22,'TU München', 'München', 83124); -- geht ja/nein?
+INSERT INTO Hochschule (HSNr, Bezeichnung, Ort, PLZ)
+VALUES (22,'TU München', 'München', 83124); -- geht ja/nein?
 -- ------------------------
-insert into Hochschule (HSNr, Bezeichnung, Ort, PLZ)
-values (77,'TU München', 'München', 87312); -- geht ja/nein?
+INSERT INTO Hochschule (HSNr, Bezeichnung, Ort, PLZ)
+VALUES (77,'TU München', 'München', 87312); -- geht ja/nein?
 -- ------------------------
-insert into Hochschule (HSNr, Bezeichnung, Ort, PLZ)
-values (77,'TU München', 'München', 87313); -- geht ja/nein?
+INSERT INTO Hochschule (HSNr, Bezeichnung, Ort, PLZ)
+VALUES (77,'TU München', 'München', 87313); -- geht ja/nein?
 -- ------------------------
 -- --> Problem: wie implementiere ich die Beziehung 'besucht'?
-alter table Student add constraint Student_Hochschule_FK foreign key (besuchtHS) references Hochschule (HSNr) -- immer auf der n-Seite, sonst Redundanzen
+ALTER TABLE Student ADD CONSTRAINT Student_Hochschule_FK FOREIGN KEY (besuchtHS) REFERENCES Hochschule (HSNr) -- immer auf der n-Seite, sonst Redundanzen
 -- ------------------------
-alter table Student add besuchtHS integer not null; 
--- -- eigentlich: alter table Student modify besuchtHS integer null (da 1:n und nicht c:n)
+ALTER TABLE Student ADD besuchtHS INTEGER NOT NULL; 
+-- -- eigentlich: ALTER TABLE Student modify besuchtHS INTEGER NULL (da 1:n und nicht c:n)
 -- ------------------------
 -- im Editor auf 11/22/33 setzen (Apply klicken)
 -- ------------------------
-alter table Student add constraint Student_Hochschule_FK foreign key (besuchtHS) references Hochschule (HSNr) 
+ALTER TABLE Student ADD CONSTRAINT Student_Hochschule_FK FOREIGN KEY (besuchtHS) REFERENCES Hochschule (HSNr) 
 -- ------------------------
-insert into Student (MatNr, Name, Semester)
-values (4,'Peter', 5); -- Problem kein Default   
-insert into Student (MatNr, Name, Semester, besuchtHS)
-values (4,'Peter', 5, 99);
-insert into Student (MatNr, Name, Semester, besuchtHS)
-values (4,'Peter', 5, 33);    
+INSERT INTO Student (MatNr, Name, Semester)
+VALUES (4,'Peter', 5); -- Problem kein DEFAULT   
+INSERT INTO Student (MatNr, Name, Semester, besuchtHS)
+VALUES (4,'Peter', 5, 99);
+INSERT INTO Student (MatNr, Name, Semester, besuchtHS)
+VALUES (4,'Peter', 5, 33);    
 -- ------------------------
-create table Professoren 
-(PersNr integer primary key,
-Name varchar(50) not null,
-Rang varchar(50),
-Raum integer unique);
+CREATE TABLE Professoren 
+(PersNr INTEGER PRIMARY KEY,
+Name VARCHAR(50) NOT NULL,
+Rang VARCHAR(50),
+Raum INTEGER UNIQUE);
 -- ------------------------
-insert into Professoren (PersNr, Name, Rang, Raum)
-values (12,'Oswald', 'Assi', 001);    
-insert into Professoren (PersNr, Name, Rang, Raum)
-values (13,'Heinz', 'Boss', 001);    
-insert into Professoren (PersNr, Name, Rang, Raum)
-values (13,'Heinz', 'Boss', 002);    
+INSERT INTO Professoren (PersNr, Name, Rang, Raum)
+VALUES (12,'Oswald', 'Assi', 001);    
+INSERT INTO Professoren (PersNr, Name, Rang, Raum)
+VALUES (13,'Heinz', 'Boss', 001);    
+INSERT INTO Professoren (PersNr, Name, Rang, Raum)
+VALUES (13,'Heinz', 'Boss', 002);    
 -- ------------------------
-drop table Vorlesung;
+DROP TABLE Vorlesung;
 -- ------------------------
-create table Vorlesung 
-(VorlNr integer primary key,
-Titel varchar(50),
-SWS integer,
-gelesenVon integer not null); -- für die Beziehung 'lesen'
+CREATE TABLE Vorlesung 
+(VorlNr INTEGER PRIMARY KEY,
+Titel VARCHAR(50),
+SWS INTEGER,
+gelesenVon INTEGER NOT NULL); -- für die Beziehung 'lesen'
 -- ------------------------
-alter table Vorlesung add constraint Vorlesung_Professoren_FK foreign key (gelesenVon) references Professoren (PersNr)
+ALTER TABLE Vorlesung ADD CONSTRAINT Vorlesung_Professoren_FK FOREIGN KEY (gelesenVon) REFERENCES Professoren (PersNr)
 --------------------------
-insert into Vorlesung (VorlNr, Titel, SWS, gelesenVon)
-values (123, 'Funktionalanalysis', 4, 13);    
-insert into Vorlesung (VorlNr, Titel, SWS, gelesenVon)
-values (456, 'Maßtheorie', 6, 13);    
-insert into Vorlesung (VorlNr, Titel, SWS, gelesenVon)
-values (456, 'Maßtheorie', 6, 12);    
+INSERT INTO Vorlesung (VorlNr, Titel, SWS, gelesenVon)
+VALUES (123, 'Funktionalanalysis', 4, 13);    
+INSERT INTO Vorlesung (VorlNr, Titel, SWS, gelesenVon)
+VALUES (456, 'Maßtheorie', 6, 13);    
+INSERT INTO Vorlesung (VorlNr, Titel, SWS, gelesenVon)
+VALUES (456, 'Maßtheorie', 6, 12);    
 -- ------------------------
-insert into Vorlesung (VorlNr, Titel, SWS, gelesenVon)
-values (789, 'Partielle DGL', 4, 12);     
+INSERT INTO Vorlesung (VorlNr, Titel, SWS, gelesenVon)
+VALUES (789, 'Partielle DGL', 4, 12);     
 -- ------------------------
-create table Hören 
-(MatNr integer, VorlNr integer,
-foreign key Hören_Student_FK (MatNr) references Student (MatNr),
-foreign key Hören_Vorlesung_FK (VorlNr) references Vorlesung (VorlNr)); -- Nicht hierarchische Beziehung in Mapping-Tabelle auslagern
+CREATE TABLE Hören 
+(MatNr INTEGER, VorlNr INTEGER,
+FOREIGN KEY Hören_Student_FK (MatNr) REFERENCES Student (MatNr),
+FOREIGN KEY Hören_Vorlesung_FK (VorlNr) REFERENCES Vorlesung (VorlNr)); -- Nicht hierarchische Beziehung in Mapping-Tabelle auslagern
 -- ------------------------
-insert into Hören (MatNr, VorlNr) values (4, 123);
-insert into Hören (MatNr, VorlNr) values (4, 123);
-insert into Hören (MatNr, VorlNr) values (4, 123); -- Problem: kann man wiederholen
+INSERT INTO Hören (MatNr, VorlNr) VALUES (4, 123);
+INSERT INTO Hören (MatNr, VorlNr) VALUES (4, 123);
+INSERT INTO Hören (MatNr, VorlNr) VALUES (4, 123); -- Problem: kann man wiederholen
 -- ------------------------
-create table Hören 
-(MatNr integer, 
-VorlNr integer,
-foreign key Hören_Student_FK (MatNr) references Student (MatNr),
-foreign key Hören_Vorlesung_FK (VorlNr) references Vorlesung (VorlNr),
-primary key (MatNr, VorlNr)
+CREATE TABLE Hören 
+(MatNr INTEGER, 
+VorlNr INTEGER,
+FOREIGN KEY Hören_Student_FK (MatNr) REFERENCES Student (MatNr),
+FOREIGN KEY Hören_Vorlesung_FK (VorlNr) REFERENCES Vorlesung (VorlNr),
+PRIMARY KEY (MatNr, VorlNr)
 );
 
 -- 12.10.2023
 
 -- ------------------------
-insert into Hören (MatNr, VorlNr) values (4, 123);
+INSERT INTO Hören (MatNr, VorlNr) VALUES (4, 123);
 -- ------------------------
-insert into Hören (MatNr, VorlNr) values (4, 123);
-insert into Hören (MatNr, VorlNr) values (1, 123);
-insert into Hören (MatNr, VorlNr) values (2, 123);
-insert into Hören (MatNr, VorlNr) values (2, 789);
-insert into Hören (MatNr, VorlNr) values (2, 789); -- Kann der Student die Vorlesung doppelt hören?
+INSERT INTO Hören (MatNr, VorlNr) VALUES (4, 123);
+INSERT INTO Hören (MatNr, VorlNr) VALUES (1, 123);
+INSERT INTO Hören (MatNr, VorlNr) VALUES (2, 123);
+INSERT INTO Hören (MatNr, VorlNr) VALUES (2, 789);
+INSERT INTO Hören (MatNr, VorlNr) VALUES (2, 789); -- Kann der Student die Vorlesung doppelt hören?
 -- ------------------------
-create table Assistenten 
-(PersNr integer primary key, 
-Name varchar(30) not null,
-Fachgebiet varchar(30),
-istVorgesetzter integer,
-foreign key Assistenten_Professoren_FK (istVorgesetzter) references Professoren (PersNr));
+CREATE TABLE Assistenten 
+(PersNr INTEGER PRIMARY KEY, 
+Name VARCHAR(30) NOT NULL,
+Fachgebiet VARCHAR(30),
+istVorgesetzter INTEGER,
+FOREIGN KEY Assistenten_Professoren_FK (istVorgesetzter) REFERENCES Professoren (PersNr));
 -- ------------------------
-insert into Assistenten (PersNr, Name, Fachgebiet, istVorgesetzter) values (99, 'Franz', 'Wahrscheinlichkeitstheorie', 4548); ---> Falscher Vorgesetzte
-insert into Assistenten (PersNr, Name, Fachgebiet, istVorgesetzter) values (98, 'Franz', 'Wahrscheinlichkeitstheorie', 13);
-insert into Assistenten (PersNr, Name, Fachgebiet, istVorgesetzter) values (99, 'Franz', 'Wahrscheinlichkeitstheorie', 13); ---> 2 Vorgesetzte?
-insert into Assistenten (PersNr, Name, Fachgebiet, istVorgesetzter) values (98, 'Franz', 'Wahrscheinlichkeitstheorie', 13); ---> Prof hat mehrere Assis?
+INSERT INTO Assistenten (PersNr, Name, Fachgebiet, istVorgesetzter) VALUES (99, 'Franz', 'Wahrscheinlichkeitstheorie', 4548); ---> Falscher Vorgesetzte
+INSERT INTO Assistenten (PersNr, Name, Fachgebiet, istVorgesetzter) VALUES (98, 'Franz', 'Wahrscheinlichkeitstheorie', 13);
+INSERT INTO Assistenten (PersNr, Name, Fachgebiet, istVorgesetzter) VALUES (99, 'Franz', 'Wahrscheinlichkeitstheorie', 13); ---> 2 Vorgesetzte?
+INSERT INTO Assistenten (PersNr, Name, Fachgebiet, istVorgesetzter) VALUES (98, 'Franz', 'Wahrscheinlichkeitstheorie', 13); ---> Prof hat mehrere Assis?
 -- ------------------------
-create table Angestellte  -- Obertyp
-(PersNr integer primary key, 
-Name varchar(30) not null
+CREATE TABLE Angestellte  -- Obertyp
+(PersNr INTEGER PRIMARY KEY, 
+Name VARCHAR(30) NOT NULL
 )
 -- ------------------------
-create table Doktoranden  -- Untertyp
-(PersNr integer primary key, 
-Name varchar(30) not null,
-Thema varchar(100),
-foreign key Doktoranden_Angestellte_FK (PersNr) references Angestellte (PersNr)
+CREATE TABLE Doktoranden  -- Untertyp
+(PersNr INTEGER PRIMARY KEY, 
+Name VARCHAR(30) NOT NULL,
+Thema VARCHAR(100),
+FOREIGN KEY Doktoranden_Angestellte_FK (PersNr) REFERENCES Angestellte (PersNr)
 )
 -- -----------------------
-insert into Doktoranden (PersNr, Name, Thema) values (56, 'Merke', 'Die Nichtfortsetzbarkeit von Potenzreihen') -- Es gibt noch keine Angestellten
+INSERT INTO Doktoranden (PersNr, Name, Thema) VALUES (56, 'Merke', 'Die Nichtfortsetzbarkeit von Potenzreihen') -- Es gibt noch keine Angestellten
 --------------------------
-insert into Angestellte (PersNr, Name) values (69, 'Doktorand') 
+INSERT INTO Angestellte (PersNr, Name) VALUES (69, 'Doktorand') 
 -- ------------------------
-insert into Doktoranden (PersNr, Name, Thema) values (69, 'Merke', 'Die Nichtfortsetzbarkeit von Potenzreihen') 
+INSERT INTO Doktoranden (PersNr, Name, Thema) VALUES (69, 'Merke', 'Die Nichtfortsetzbarkeit von Potenzreihen') 
 -- ------------------------
-create table Autos
-(AutoNr integer primary key, 
-Marke varchar(20) not null,
-Typ varchar(20),
-Baujahr integer
+CREATE TABLE Autos
+(AutoNr INTEGER PRIMARY KEY, 
+Marke VARCHAR(20) NOT NULL,
+Typ VARCHAR(20),
+Baujahr INTEGER
 )
 -- -----------------------
-insert into Autos (AutoNr, Marke, Typ, Baujahr) values (87, 'VW', 'Golf', 2008);
-insert into Autos (AutoNr, Marke, Typ, Baujahr) values (89, 'Opel', 'Astra', 2008);
-insert into Autos (AutoNr, Marke, Typ, Baujahr) values (90, 'Honda', 'Civic', 2020);
-insert into Autos (AutoNr, Marke, Typ, Baujahr) values (91, 'Fiat', 'Punto', 2012);
+INSERT INTO Autos (AutoNr, Marke, Typ, Baujahr) VALUES (87, 'VW', 'Golf', 2008);
+INSERT INTO Autos (AutoNr, Marke, Typ, Baujahr) VALUES (89, 'Opel', 'Astra', 2008);
+INSERT INTO Autos (AutoNr, Marke, Typ, Baujahr) VALUES (90, 'Honda', 'Civic', 2020);
+INSERT INTO Autos (AutoNr, Marke, Typ, Baujahr) VALUES (91, 'Fiat', 'Punto', 2012);
 -- ------------------------
-create table Fahrzeughalter -- da c:mc nicht hierarchische Beziehung
-(MatNr integer,
-AutoNr integer,
-foreign key Fahrzeughalter_MatrNummer_FK (MatNr) references Student (MatNr),
-foreign key Fahrzeughalter_Autonummer_FK (AutoNr) references Autos (AutoNr)
+CREATE TABLE Fahrzeughalter -- da c:mc nicht hierarchische Beziehung
+(MatNr INTEGER,
+AutoNr INTEGER,
+FOREIGN KEY Fahrzeughalter_MatrNummer_FK (MatNr) REFERENCES Student (MatNr),
+FOREIGN KEY Fahrzeughalter_Autonummer_FK (AutoNr) REFERENCES Autos (AutoNr)
 )
 -- ------------------------
-insert into Fahrzeughalter (MatNr, AutoNr) values (22222, 87);
-insert into Fahrzeughalter (MatNr, AutoNr) values (22222, 87);
-insert into Fahrzeughalter (MatNr, AutoNr) values (22222, 87);
-insert into Fahrzeughalter (MatNr, AutoNr) values (22222, 87);
+INSERT INTO Fahrzeughalter (MatNr, AutoNr) VALUES (22222, 87);
+INSERT INTO Fahrzeughalter (MatNr, AutoNr) VALUES (22222, 87);
+INSERT INTO Fahrzeughalter (MatNr, AutoNr) VALUES (22222, 87);
+INSERT INTO Fahrzeughalter (MatNr, AutoNr) VALUES (22222, 87);
 -- ------------------------
-insert into Fahrzeughalter (MatNr, AutoNr) values (1, 87) ;
+INSERT INTO Fahrzeughalter (MatNr, AutoNr) VALUES (1, 87) ;
 -- ------------------------
-insert into Fahrzeughalter (MatNr, AutoNr) values (1, 87);
-insert into Fahrzeughalter (MatNr, AutoNr) values (1, 87);
-insert into Fahrzeughalter (MatNr, AutoNr) values (1, 87); -- Student besitzt Auto mehrfach
+INSERT INTO Fahrzeughalter (MatNr, AutoNr) VALUES (1, 87);
+INSERT INTO Fahrzeughalter (MatNr, AutoNr) VALUES (1, 87);
+INSERT INTO Fahrzeughalter (MatNr, AutoNr) VALUES (1, 87); -- Student besitzt Auto mehrfach
 -- ------------------------
-drop table Fahrzeughalter;
+DROP TABLE Fahrzeughalter;
 -- ------------------------
-create table Fahrzeughalter
-(MatNr integer,
-AutoNr integer,
-foreign key Fahrzeughalter_MatrNummer_FK (MatNr) references Student (MatNr),
-foreign key Fahrzeughalter_Autonummer_FK (AutoNr) references Autos (AutoNr),
-primary key (AutoNr)
+CREATE TABLE Fahrzeughalter
+(MatNr INTEGER,
+AutoNr INTEGER,
+FOREIGN KEY Fahrzeughalter_MatrNummer_FK (MatNr) REFERENCES Student (MatNr),
+FOREIGN KEY Fahrzeughalter_Autonummer_FK (AutoNr) REFERENCES Autos (AutoNr),
+PRIMARY KEY (AutoNr)
 )
 -- ------------------------
-insert into Fahrzeughalter (MatNr, AutoNr) values (22222, 87);
-insert into Fahrzeughalter (MatNr, AutoNr) values (1, 87);
-insert into Fahrzeughalter (MatNr, AutoNr) values (1, 88);
-insert into Fahrzeughalter (MatNr, AutoNr) values (1, 89);
-insert into Fahrzeughalter (MatNr, AutoNr) values (2, 89);
-insert into Fahrzeughalter (MatNr, AutoNr) values (2, 90);
-insert into Fahrzeughalter (MatNr, AutoNr) values (2, 91);
-insert into Fahrzeughalter (MatNr, AutoNr) values (3, 91); -- AutoNr ist PK
+INSERT INTO Fahrzeughalter (MatNr, AutoNr) VALUES (22222, 87);
+INSERT INTO Fahrzeughalter (MatNr, AutoNr) VALUES (1, 87);
+INSERT INTO Fahrzeughalter (MatNr, AutoNr) VALUES (1, 88);
+INSERT INTO Fahrzeughalter (MatNr, AutoNr) VALUES (1, 89);
+INSERT INTO Fahrzeughalter (MatNr, AutoNr) VALUES (2, 89);
+INSERT INTO Fahrzeughalter (MatNr, AutoNr) VALUES (2, 90);
+INSERT INTO Fahrzeughalter (MatNr, AutoNr) VALUES (2, 91);
+INSERT INTO Fahrzeughalter (MatNr, AutoNr) VALUES (3, 91); -- AutoNr ist PK
 -- ------------------------

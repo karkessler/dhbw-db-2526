@@ -5,87 +5,87 @@
 -------------------------------------------------
 
 -- -----------------------------------------------
-create table Männer 
-(MaNr integer not null primary key,
-Name varchar(50) not null,
-Vorname varchar(50) not null);
+CREATE TABLE Männer 
+(MaNr INTEGER NOT NULL PRIMARY KEY,
+Name VARCHAR(50) NOT NULL,
+Vorname VARCHAR(50) NOT NULL);
 -- ------------------------
-create table Frauen 
-(FrNr integer not null primary key,
-Name varchar(50) not null,
-Vorname varchar(50) not null);
+CREATE TABLE Frauen 
+(FrNr INTEGER NOT NULL PRIMARY KEY,
+Name VARCHAR(50) NOT NULL,
+Vorname VARCHAR(50) NOT NULL);
 -- ------------------------
-create table Ehepaar 
-(MaNr integer not null,
-FrNr integer not null,
-foreign key Ehepaar_Männer_FK (MaNr) references Männer (MaNr),
-foreign key Ehepaar_Frauen_FK (FrNr) references Frauen (FrNr),
-primary key (MaNr, FrNr));
+CREATE TABLE Ehepaar 
+(MaNr INTEGER NOT NULL,
+FrNr INTEGER NOT NULL,
+FOREIGN KEY Ehepaar_Männer_FK (MaNr) REFERENCES Männer (MaNr),
+FOREIGN KEY Ehepaar_Frauen_FK (FrNr) REFERENCES Frauen (FrNr),
+PRIMARY KEY (MaNr, FrNr));
 -- ------------------------
-insert into Männer (MaNr, Name, Vorname) 
-values (1,'Jan', 'Müller');
-insert into Männer (MaNr, Name, Vorname) 
-values (2,'Peter', 'Meier');
-insert into Männer (MaNr, Name, Vorname) 
-values (3,'Jürgen', 'Sturm');
-insert into Männer (MaNr, Name, Vorname) 
-values (4,'Jens', 'Stark');
-insert into Männer (MaNr, Name, Vorname) 
-values (5,'Kurt', 'Schmitt');
-insert into Männer (MaNr, Name, Vorname) 
-values (6,'Oswald', 'Peterson');
-insert into Männer (MaNr, Name, Vorname) 
-values (7,'Thomas', 'Schneider');
-insert into Männer (MaNr, Name, Vorname) 
-values (8,'Axel', 'Mertens');
-insert into Männer (MaNr, Name, Vorname) 
-values (9,'Michael', 'Hoffmeister');
-insert into Männer (MaNr, Name, Vorname) 
-values (10,'Jonas', 'Meerbad');
+INSERT INTO Männer (MaNr, Name, Vorname) 
+VALUES (1,'Jan', 'Müller');
+INSERT INTO Männer (MaNr, Name, Vorname) 
+VALUES (2,'Peter', 'Meier');
+INSERT INTO Männer (MaNr, Name, Vorname) 
+VALUES (3,'Jürgen', 'Sturm');
+INSERT INTO Männer (MaNr, Name, Vorname) 
+VALUES (4,'Jens', 'Stark');
+INSERT INTO Männer (MaNr, Name, Vorname) 
+VALUES (5,'Kurt', 'Schmitt');
+INSERT INTO Männer (MaNr, Name, Vorname) 
+VALUES (6,'Oswald', 'Peterson');
+INSERT INTO Männer (MaNr, Name, Vorname) 
+VALUES (7,'Thomas', 'Schneider');
+INSERT INTO Männer (MaNr, Name, Vorname) 
+VALUES (8,'Axel', 'Mertens');
+INSERT INTO Männer (MaNr, Name, Vorname) 
+VALUES (9,'Michael', 'Hoffmeister');
+INSERT INTO Männer (MaNr, Name, Vorname) 
+VALUES (10,'Jonas', 'Meerbad');
 -- ------------------------
-insert into Frauen (FrNr, Name, Vorname) 
-values (11,'Julia', 'Bürkle');
-insert into Frauen (FrNr, Name, Vorname) 
-values (22,'Iris', 'Mittermeier');
-insert into Frauen (FrNr, Name, Vorname) 
-values (33,'Petra', 'Schnelle');
-insert into Frauen (FrNr, Name, Vorname) 
-values (44,'Ruth', 'Stöhr');
-insert into Frauen (FrNr, Name, Vorname) 
-values (55,'Michaela', 'Herb');
+INSERT INTO Frauen (FrNr, Name, Vorname) 
+VALUES (11,'Julia', 'Bürkle');
+INSERT INTO Frauen (FrNr, Name, Vorname) 
+VALUES (22,'Iris', 'Mittermeier');
+INSERT INTO Frauen (FrNr, Name, Vorname) 
+VALUES (33,'Petra', 'Schnelle');
+INSERT INTO Frauen (FrNr, Name, Vorname) 
+VALUES (44,'Ruth', 'Stöhr');
+INSERT INTO Frauen (FrNr, Name, Vorname) 
+VALUES (55,'Michaela', 'Herb');
 -- ------------------------
-insert into Ehepaar (MaNr, FrNr) values (1, 1); -- was bedeutet das?
-insert into Ehepaar (MaNr, FrNr) values (1, 2); -- was bedeutet das?
-insert into Ehepaar (MaNr, FrNr) values (1, 55) -- was bedeutet das?
-insert into Ehepaar (MaNr, FrNr) values (1, 55) -- was bedeutet das?
-delete from Ehepaar where MaNr = 1 and FrNr = 55
-insert into Ehepaar (MaNr, FrNr) values (2, 55) 
-insert into Ehepaar (MaNr, FrNr) values (2, 55) 
+INSERT INTO Ehepaar (MaNr, FrNr) VALUES (1, 1); -- was bedeutet das?
+INSERT INTO Ehepaar (MaNr, FrNr) VALUES (1, 2); -- was bedeutet das?
+INSERT INTO Ehepaar (MaNr, FrNr) VALUES (1, 55) -- was bedeutet das?
+INSERT INTO Ehepaar (MaNr, FrNr) VALUES (1, 55) -- was bedeutet das?
+DELETE FROM Ehepaar WHERE MaNr = 1 AND FrNr = 55
+INSERT INTO Ehepaar (MaNr, FrNr) VALUES (2, 55) 
+INSERT INTO Ehepaar (MaNr, FrNr) VALUES (2, 55) 
 -- -------------------------
-create table Ehepaar 
-(MaNr integer not null,
-FrNr integer not null,
-foreign key Ehepaar_Männer_FK (MaNr) references Männer (MaNr),
-foreign key Ehepaar_Frauen_FK (FrNr) references Frauen (FrNr),
-primary key (MaNr, FrNr));
+CREATE TABLE Ehepaar 
+(MaNr INTEGER NOT NULL,
+FrNr INTEGER NOT NULL,
+FOREIGN KEY Ehepaar_Männer_FK (MaNr) REFERENCES Männer (MaNr),
+FOREIGN KEY Ehepaar_Frauen_FK (FrNr) REFERENCES Frauen (FrNr),
+PRIMARY KEY (MaNr, FrNr));
 -- --------------------------
-create table Ehepaar 
-(MaNr integer not null,
-FrNr integer not null,
-foreign key Ehepaar_Frauen_FK (FrNr) references Frauen (FrNr),
-primary key (MaNr));
--- -- foreign key Ehepaar_Frauen_FK (FrNr) references Frauen (FrNr) on delete cascade, ---> löscht hier Reference, wenn Frau in Frauen gelöscht
+CREATE TABLE Ehepaar 
+(MaNr INTEGER NOT NULL,
+FrNr INTEGER NOT NULL,
+FOREIGN KEY Ehepaar_Frauen_FK (FrNr) REFERENCES Frauen (FrNr),
+PRIMARY KEY (MaNr));
+-- -- FOREIGN KEY Ehepaar_Frauen_FK (FrNr) REFERENCES Frauen (FrNr) ON DELETE cascade, ---> löscht hier Reference, wenn Frau in Frauen gelöscht
 ----------------------------
--- create table Ehepaar 
--- (MaNr integer not null,
--- FrNr integer not null,
--- foreign key Ehepaar_Männer_FK (MaNr) references Männer (MaNr),
--- foreign key Ehepaar_Frauen_FK (FrNr) references Frauen (FrNr),
--- primary key (MaNr, FrNr));
--- alter table Ehepaar modify column FrNr integer unique;
--- alter table Ehepaar modify column MaNr integer unique;
+-- CREATE TABLE Ehepaar 
+-- (MaNr INTEGER NOT NULL,
+-- FrNr INTEGER NOT NULL,
+-- FOREIGN KEY Ehepaar_Männer_FK (MaNr) REFERENCES Männer (MaNr),
+-- FOREIGN KEY Ehepaar_Frauen_FK (FrNr) REFERENCES Frauen (FrNr),
+-- PRIMARY KEY (MaNr, FrNr));
+-- ALTER TABLE Ehepaar modify column FrNr INTEGER UNIQUE;
+-- ALTER TABLE Ehepaar modify column MaNr INTEGER UNIQUE;
 ----------------------------
-insert into Ehepaar (MaNr, FrNr) values (2, 55) -- was bedeutet das?
-insert into Ehepaar (MaNr, FrNr) values (2, 44) -- was bedeutet das?
-insert into Ehepaar (MaNr, FrNr) values (2, 11) -- was bedeutet das?
-insert into Ehepaar (MaNr, FrNr) values (3, 11) 
+INSERT INTO Ehepaar (MaNr, FrNr) VALUES (2, 55) -- was bedeutet das?
+INSERT INTO Ehepaar (MaNr, FrNr) VALUES (2, 44) -- was bedeutet das?
+INSERT INTO Ehepaar (MaNr, FrNr) VALUES (2, 11) -- was bedeutet das?
+INSERT INTO Ehepaar (MaNr, FrNr) VALUES (3, 11) 
