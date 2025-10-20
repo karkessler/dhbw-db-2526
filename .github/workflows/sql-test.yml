@@ -4,6 +4,7 @@ on:
   push:
     branches: [ main, master ]
   pull_request:
+  workflow_dispatch: {}
 
 jobs:
   run-sql:
@@ -22,15 +23,16 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=10
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-     - name: Show repo files
+      - name: Show repo files
         run: |
-        pwd
-        ls -la
-        ls -la Vorlesungen || true
+          pwd
+          ls -la
+          ls -la Vorlesungen || true
 
       - name: Wait for MySQL
         run: |
@@ -40,12 +42,34 @@ jobs:
             fi
             sleep 2
           done
-          echo "MySQL did not become healthy in time" && exit 1
+          echo "MySQL did not become healthy in time"
+          exit 1
 
       - name: Run SQL file
         run: |
           mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" testdb < Vorlesungen/16_10_2025.sql
 
-      - name: Smoke test
+      - name: Verify table 'vorlesung' is populated
         run: |
-          mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "USE testdb; SELECT * FROM products;"
+          set -e
+          # existiert die Tabelle?
+          exists=$(mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -N -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='testdb' AND table_name='vorlesung';")
+          if [ "$exists" -eq 0 ]; then
+            echo "❌ Tabelle 'vorlesung' existiert nicht in Schema 'testdb'."
+            exit 1
+          fi
+          # Anzahl Zeilen
+          rows=$(mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -N -e "USE testdb; SELECT COUNT(*) FROM vorlesung;")
+          echo "vorlesung rows: $rows"
+          if [ "$rows" -eq 0 ]; then
+            echo "❌ Tabelle 'vorlesung' ist leer."
+            exit 1
+          fi
+          # ein paar Datensätze zeigen
+          mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "USE testdb; SELECT * FROM vorlesung ORDER BY 1 LIMIT 10;"
+
+      - name: Smoke test (products, optional)
+        run: |
+          set +e
+          mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "USE testdb; SELECT COUNT(*) AS cnt FROM products;" || echo "Hinweis: Tabelle 'products' nicht vorhanden."
+          mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "USE testdb; SHOW TABLES;"
