@@ -49,6 +49,8 @@ INSERT INTO Vorlesung (VorlNr, Titel, SWS)
 VALUES (456, 'Maßtheorie', 6);
 INSERT INTO Vorlesung (VorlNr, Titel, SWS)
 VALUES (789, 'Partielle DGL', 4);
+INSERT INTO Vorlesung (VorlNr, Titel, SWS)
+VALUES (321, 'Analysis', 4);
 
 INSERT INTO Student (MatNr, Name, Semester, HS)
 VALUES (1,'Paul', 1, 11);
