@@ -1,0 +1,47 @@
+name: SQL CI (MySQL)
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-sql:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: rootpw
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -prootpw || exit 1"
+          --health-interval=5s
+          --health-timeout=3s
+          --health-retries=60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install MySQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mysql-client
+          chmod +x tests/run_tests.sh
+
+      - name: Run SQL snapshot tests
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_USER: root
+          DB_PASS: rootpw
+          DB_NAME: testdb
+        run: ./tests/run_tests.sh
+
+      - name: Upload outputs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sql-test-outputs
+          path: tests/out/*.csv
