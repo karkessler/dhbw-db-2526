@@ -55,14 +55,14 @@ jobs:
           # existiert die Tabelle?
           exists=$(mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -N -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='testdb' AND table_name='Vorlesung';")
           if [ "$exists" -eq 0 ]; then
-            echo "❌ Tabelle 'vorlesung' existiert nicht in Schema 'testdb'."
+            echo "❌ Tabelle 'Vorlesung' existiert nicht in Schema 'testdb'."
             exit 1
           fi
           # Anzahl Zeilen
           rows=$(mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -N -e "USE testdb; SELECT COUNT(*) FROM Vorlesung;")
           echo "vorlesung rows: $rows"
           if [ "$rows" -eq 0 ]; then
-            echo "❌ Tabelle 'vorlesung' ist leer."
+            echo "❌ Tabelle 'Vorlesung' ist leer."
             exit 1
           fi
           # ein paar Datensätze zeigen
