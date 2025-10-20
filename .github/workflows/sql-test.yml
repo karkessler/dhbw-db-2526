@@ -59,14 +59,14 @@ jobs:
             exit 1
           fi
           # Anzahl Zeilen
-          rows=$(mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -N -e "USE testdb; SELECT COUNT(*) FROM vorlesung;")
+          rows=$(mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -N -e "USE testdb; SELECT COUNT(*) FROM Vorlesung;")
           echo "vorlesung rows: $rows"
           if [ "$rows" -eq 0 ]; then
             echo "❌ Tabelle 'vorlesung' ist leer."
             exit 1
           fi
           # ein paar Datensätze zeigen
-          mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "USE testdb; SELECT * FROM vorlesung ORDER BY 1 LIMIT 10;"
+          mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "USE testdb; SELECT * FROM Vorlesung ORDER BY 1 LIMIT 10;"
 
       - name: Smoke test (products, optional)
         run: |
