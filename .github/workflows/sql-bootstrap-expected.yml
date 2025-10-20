@@ -15,18 +15,18 @@ jobs:
         image: mysql:8
         env:
           MYSQL_ROOT_PASSWORD: rootpw
-        ports:
-          - 3306:3306
+        ports: ["3306:3306"]
         options: >-
           --health-cmd="mysqladmin ping -h 127.0.0.1 -prootpw || exit 1"
-          --health-interval=5s
-          --health-timeout=3s
-          --health-retries=60
+          --health-interval=5s --health-timeout=3s --health-retries=60
 
     steps:
+      # 1) Immer den Default-Branch auschecken (nicht den Trigger-Branch)
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
 
-      - name: Install MySQL client
+      - name: Install MySQL client + make runner executable
         run: |
           sudo apt-get update
           sudo apt-get install -y mysql-client
@@ -42,24 +42,31 @@ jobs:
           RECORD: "1"
         run: ./tests/run_tests.sh
 
-      - name: Commit changes
+      - name: Commit changes on new branch
+        id: commit
         run: |
+          set -e
+          BR="bootstrap-expected-${GITHUB_RUN_ID}"
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b bootstrap-expected
+          git checkout -b "$BR"
           git add tests/expected/*.csv || true
           if git diff --cached --quiet; then
-            echo "No expected files to commit."
+            echo "changed=false" >> $GITHUB_OUTPUT
           else
             git commit -m "Bootstrap expected CSVs"
-            git push -u origin bootstrap-expected
+            git push -u origin "$BR"
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "branch=$BR"   >> $GITHUB_OUTPUT
           fi
 
       - name: Create pull request
+        if: steps.commit.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: bootstrap-expected
+          base:  ${{ github.event.repository.default_branch }}   # z. B. main
+          branch: ${{ steps.commit.outputs.branch }}             # neuer Branch
           title: "Bootstrap expected CSVs"
           body: "Erzeugt Expected-Dateien aus aktuellen SQL-Ausgaben."
           delete-branch: true
