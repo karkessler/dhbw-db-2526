@@ -1,0 +1,51 @@
+name: Run SQL script
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  run-sql:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        ports: [ "3306:3306" ]
+        env:
+          MYSQL_DATABASE: testdb
+          MYSQL_USER: gha
+          MYSQL_PASSWORD: gha_pw
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -p${MYSQL_ROOT_PASSWORD}"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+     - name: Show repo files
+        run: |
+        pwd
+        ls -la
+        ls -la Vorlesungen || true
+
+      - name: Wait for MySQL
+        run: |
+          for i in {1..30}; do
+            if mysqladmin ping -h 127.0.0.1 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" --silent; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "MySQL did not become healthy in time" && exit 1
+
+      - name: Run SQL file
+        run: |
+          mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" testdb < Vorlesungen/16_10_2025.sql
+
+      - name: Smoke test
+        run: |
+          mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "USE testdb; SELECT * FROM products;"
