@@ -47,7 +47,7 @@ jobs:
 
       - name: Run SQL file
         run: |
-          mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" testdb < Vorlesungen/16_10_2025.sql
+          mysql -h 127.0.0.1 -P 3306 -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" testdb < Vorlesungen/Übungen/16_10_2025.sql
 
       - name: Verify table 'vorlesung' is populated
         run: |
