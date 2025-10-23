@@ -1,8 +1,15 @@
--------------------------------------------------
---- Szenario 2: c-c:
---- 1. Männer sind mit Frauen verheiratet oder nicht. 
---- 2. Männer und Frauen können nur einmal gleichzeitig verheiratet sein
--------------------------------------------------
+-- -----------------------------------------------
+-- - Szenario 2: c-c:
+-- - 1. Männer sind mit Frauen verheiratet oder nicht.
+-- - 2. Männer und Frauen können nur einmal gleichzeitig verheiratet sein
+-- -----------------------------------------------
+
+USE 25_26;
+
+DROP TABLE IF EXISTS Ehepaar;
+DROP TABLE IF EXISTS Männer;
+DROP TABLE IF EXISTS Frauen;;
+
 
 -- -----------------------------------------------
 CREATE TABLE Männer 
@@ -15,12 +22,12 @@ CREATE TABLE Frauen
 Name VARCHAR(50) NOT NULL,
 Vorname VARCHAR(50) NOT NULL);
 -- ------------------------
-CREATE TABLE Ehepaar 
-(MaNr INTEGER NOT NULL,
-FrNr INTEGER NOT NULL,
-FOREIGN KEY Ehepaar_Männer_FK (MaNr) REFERENCES Männer (MaNr),
-FOREIGN KEY Ehepaar_Frauen_FK (FrNr) REFERENCES Frauen (FrNr),
-PRIMARY KEY (MaNr, FrNr));
+-- CREATE TABLE Ehepaar
+-- (MaNr INTEGER NOT NULL,
+-- FrNr INTEGER NOT NULL,
+-- FOREIGN KEY Ehepaar_Männer_FK (MaNr) REFERENCES Männer (MaNr),
+-- FOREIGN KEY Ehepaar_Frauen_FK (FrNr) REFERENCES Frauen (FrNr),
+-- PRIMARY KEY (MaNr, FrNr));
 -- ------------------------
 INSERT INTO Männer (MaNr, Name, Vorname) 
 VALUES (1,'Jan', 'Müller');
@@ -54,13 +61,13 @@ VALUES (44,'Ruth', 'Stöhr');
 INSERT INTO Frauen (FrNr, Name, Vorname) 
 VALUES (55,'Michaela', 'Herb');
 -- ------------------------
-INSERT INTO Ehepaar (MaNr, FrNr) VALUES (1, 1); -- was bedeutet das?
-INSERT INTO Ehepaar (MaNr, FrNr) VALUES (1, 2); -- was bedeutet das?
-INSERT INTO Ehepaar (MaNr, FrNr) VALUES (1, 55) -- was bedeutet das?
-INSERT INTO Ehepaar (MaNr, FrNr) VALUES (1, 55) -- was bedeutet das?
-DELETE FROM Ehepaar WHERE MaNr = 1 AND FrNr = 55
-INSERT INTO Ehepaar (MaNr, FrNr) VALUES (2, 55) 
-INSERT INTO Ehepaar (MaNr, FrNr) VALUES (2, 55) 
+-- INSERT INTO Ehepaar (MaNr, FrNr) VALUES (1, 1); -- was bedeutet das?
+-- INSERT INTO Ehepaar (MaNr, FrNr) VALUES (1, 2); -- was bedeutet das?
+-- INSERT INTO Ehepaar (MaNr, FrNr) VALUES (1, 55) -- was bedeutet das?
+-- INSERT INTO Ehepaar (MaNr, FrNr) VALUES (1, 55) -- was bedeutet das?
+-- DELETE FROM Ehepaar WHERE MaNr = 1 AND FrNr = 55
+-- INSERT INTO Ehepaar (MaNr, FrNr) VALUES (2, 55)
+-- INSERT INTO Ehepaar (MaNr, FrNr) VALUES (2, 55)
 -- -------------------------
 CREATE TABLE Ehepaar 
 (MaNr INTEGER NOT NULL,
@@ -69,13 +76,13 @@ FOREIGN KEY Ehepaar_Männer_FK (MaNr) REFERENCES Männer (MaNr),
 FOREIGN KEY Ehepaar_Frauen_FK (FrNr) REFERENCES Frauen (FrNr),
 PRIMARY KEY (MaNr, FrNr));
 -- --------------------------
-CREATE TABLE Ehepaar 
-(MaNr INTEGER NOT NULL,
-FrNr INTEGER NOT NULL,
-FOREIGN KEY Ehepaar_Frauen_FK (FrNr) REFERENCES Frauen (FrNr),
-PRIMARY KEY (MaNr));
+-- CREATE TABLE Ehepaar
+-- (MaNr INTEGER NOT NULL,
+-- FrNr INTEGER NOT NULL,
+-- FOREIGN KEY Ehepaar_Frauen_FK (FrNr) REFERENCES Frauen (FrNr),
+-- PRIMARY KEY (MaNr));
 -- -- FOREIGN KEY Ehepaar_Frauen_FK (FrNr) REFERENCES Frauen (FrNr) ON DELETE cascade, ---> löscht hier Reference, wenn Frau in Frauen gelöscht
-----------------------------
+-- --------------------------
 -- CREATE TABLE Ehepaar 
 -- (MaNr INTEGER NOT NULL,
 -- FrNr INTEGER NOT NULL,
@@ -84,8 +91,8 @@ PRIMARY KEY (MaNr));
 -- PRIMARY KEY (MaNr, FrNr));
 -- ALTER TABLE Ehepaar modify column FrNr INTEGER UNIQUE;
 -- ALTER TABLE Ehepaar modify column MaNr INTEGER UNIQUE;
-----------------------------
-INSERT INTO Ehepaar (MaNr, FrNr) VALUES (2, 55) -- was bedeutet das?
-INSERT INTO Ehepaar (MaNr, FrNr) VALUES (2, 44) -- was bedeutet das?
-INSERT INTO Ehepaar (MaNr, FrNr) VALUES (2, 11) -- was bedeutet das?
-INSERT INTO Ehepaar (MaNr, FrNr) VALUES (3, 11) 
+-- --------------------------
+INSERT INTO Ehepaar (MaNr, FrNr) VALUES (2, 55); -- was bedeutet das?
+INSERT INTO Ehepaar (MaNr, FrNr) VALUES (2, 44); -- was bedeutet das?
+INSERT INTO Ehepaar (MaNr, FrNr) VALUES (2, 11); -- was bedeutet das?
+INSERT INTO Ehepaar (MaNr, FrNr) VALUES (3, 11);
