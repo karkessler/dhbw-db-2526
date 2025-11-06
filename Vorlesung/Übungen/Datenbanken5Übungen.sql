@@ -1,9 +1,9 @@
-USE 25_26;
 -- -----------------------------------------------
 -- Szenario: Relationale Algebra
 -- -----------------------------------------------
 
--- -----------------------------------------------
+USE 25_26;
+
 -- 1. Selection:
 SELECT Semester, Name FROM Student WHERE Semester = 1;
 
@@ -51,7 +51,7 @@ where v.Titel = 'Maßtheorie';
 SELECT * FROM Professor p LEFT OUTER JOIN Vorlesung v ON p.PersNr = v.gelesenVon;
 
 -- RIGHT OUTER JOIN:
-SELECT * FROM Professoren p RIGHT OUTER JOIN Vorlesung v ON p.PersNr = v.gelesenVon;
+-- SELECT * FROM Professoren p RIGHT OUTER JOIN Vorlesung v ON p.PersNr = v.gelesenVon;
 
 -- FULL OUTER JOIN (in MySQL mit 2 Joins)
 SELECT * FROM Professor p LEFT OUTER JOIN Vorlesung v ON p.PersNr = v.gelesenVon
@@ -78,12 +78,13 @@ insert into Senior (MatNr, Name, Semester, HSNr)
 values (103,'Paul', 1, 11);
 
 -- Natural Join
-SELECT * FROM Hochschulen NATURAL JOIN Senior;
+SELECT * FROM Hochschule NATURAL JOIN Senior;
 
 -- INTERSECTION (Schnittmenge)
-SELECT Name FROM Männer INTERSECT SELECT Name FROM Professoren;
+SELECT Name FROM Mann INTERSECT SELECT Name FROM Professoren;
 
 -- Gruppierung und Aggregatfunktion
+SELECT Semester as Semester, COUNT(*) as Anzahl FROM Student group by Semester;
 SELECT Semester as Semester, COUNT(*) as Anzahl FROM Student group by Semester;
 
 -- Sortierung

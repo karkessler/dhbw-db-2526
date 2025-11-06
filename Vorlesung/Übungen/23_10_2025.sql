@@ -1,8 +1,8 @@
+-- Verschiedene Übungen zu den Vorlesungen
+
 USE 25_26;
 
 DROP TABLE IF EXISTS Hoeren;
-
-
 DROP TABLE IF EXISTS Vorlesung;
 DROP TABLE IF EXISTS Assistent;
 DROP TABLE IF EXISTS Professor;
@@ -10,9 +10,8 @@ DROP TABLE IF EXISTS Doktorand;
 DROP TABLE IF EXISTS Angestellter;
 DROP TABLE IF EXISTS Fahrzeughalter;
 DROP TABLE IF EXISTS Student;
-
 DROP TABLE IF EXISTS Auto;
-drop table IF EXISTS senior;
+drop table IF EXISTS Senior;
 DROP TABLE IF EXISTS Hochschule;
 
 CREATE TABLE Hochschule
@@ -63,8 +62,6 @@ INSERT INTO Student (MatNr, Name, Semester, HS)
 VALUES (3,'Meier', 4, 22);
 INSERT INTO Student (MatNr, Name, Semester, HS)
 VALUES (4,'Meier', 4, 33);
-
-
 
 SELECT * FROM Student;
 SELECT * FROM Hochschule;
